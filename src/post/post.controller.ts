@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Header, Headers, HttpException, HttpStatus, Inject, NotFoundException, Post, Request, Res, UnauthorizedException, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Ctx, EventPattern, MessagePattern, Payload, RmqContext, RpcException, TcpContext } from '@nestjs/microservices';
+import { Ctx, EventPattern, KafkaContext, MessagePattern, Payload, RmqContext, RpcException, TcpContext } from '@nestjs/microservices';
 import { PostService } from './post.service';
 import { PostCreateDto } from './dto/post-create.dto';
 import { RmqService } from 'src/rmq/rmq.service';
@@ -20,11 +20,17 @@ export class PostController {
         return result;
     }
 
-    @MessagePattern("all")
-    async findAll(){
-        // console.log("agent",agent2)
-        return {all:true};
-    }
+    // @MessagePattern("all")
+    // async findAll(){
+    //     // console.log("agent",agent2)
+    //     return {all:true};
+    // }
+
+    // @EventPattern("orders")
+    // async createPost2(@Payload() data:any,@Ctx() context:KafkaContext){
+    //     console.log("post222 context",data);
+    //     console.log(context.getMessage());
+    // }
 
 
     @EventPattern("notifications")

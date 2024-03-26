@@ -8,20 +8,25 @@ async function bootstrap() {
   const appTcp = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
-      transport: Transport.TCP,
+      transport: Transport.KAFKA,
       options: {
-        host: 'post-service',
-        port: 5000,
+        client: {
+          clientId: `consumer-post`,
+          brokers: ['kafka-0:9092','kafka-1:9092'],
+        },
+        consumer: {
+          groupId: 'consumer-post',
+        },
       },
     },
   );
-  const rmqService = appTcp.get<RmqService>(RmqService);
-  const appRmq = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    rmqService.getOptions('post_queue')
-  );
+  // const rmqService = appTcp.get<RmqService>(RmqService);
+  // const appRmq = await NestFactory.createMicroservice<MicroserviceOptions>(
+  //   AppModule,
+  //   rmqService.getOptions('post_queue')
+  // );
 
   await appTcp.listen();
-  await appRmq.listen();
+  // await appRmq.listen();
 }
 bootstrap();
