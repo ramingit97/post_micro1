@@ -14,9 +14,7 @@ export class PostController {
     @UsePipes(ValidationPipe)
     @MessagePattern("create_post")
     async createPost(@Payload() data:PostCreateDto){
-        console.log('rrrrrr',data)
         let result = await this.postService.create(data);
-        console.log('resutk',result);
         return result;
     }
 

@@ -20,13 +20,18 @@ async function bootstrap() {
       },
     },
   );
-  // const rmqService = appTcp.get<RmqService>(RmqService);
-  // const appRmq = await NestFactory.createMicroservice<MicroserviceOptions>(
-  //   AppModule,
-  //   rmqService.getOptions('post_queue')
-  // );
-
+  
   await appTcp.listen();
-  // await appRmq.listen();
+
+  const httpApp = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule,{
+    transport: Transport.TCP,
+    options: {
+      host: 'post-service',
+      port: 5000,
+    },
+  });
+
+  // Запускаем веб-приложение для HTTP
+  httpApp.listen(); 
 }
 bootstrap();

@@ -4,11 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSource } from './ormconfig';
 import { RmqModule } from './rmq/rmq.module';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ProductModule } from './products/product.module';
 
 @Module({
   imports: [
-    
     RmqModule,
     ConfigModule.forRoot({
       isGlobal:true,
@@ -19,8 +18,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       useFactory:()=>dataSource.options
     }),
     PostModule,
-
-   
+    ProductModule
   ],
   controllers: [],
   providers: [],
